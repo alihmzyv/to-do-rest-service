@@ -40,7 +40,7 @@ public class User {
     @Column(name = "password", nullable = false, length = Integer.MAX_VALUE)
     String password;
 
-    @OneToMany(mappedBy = "userId")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @ToString.Exclude
     Set<Task> tasks = new LinkedHashSet<>();
 
