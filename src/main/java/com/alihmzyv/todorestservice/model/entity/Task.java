@@ -50,4 +50,10 @@ public class Task {
     @Column(name = "important", nullable = false)
     Boolean important = false;
 
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", nullable = false)
+    @ToString.Exclude
+    User user;
+
 }
