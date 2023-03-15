@@ -18,7 +18,7 @@ import java.util.Set;
 @Table(name = "users", schema = "public", indexes = {
         @Index(name = "users_email_address_uindex", columnList = "email_address", unique = true)
 })
-public class User {
+public class AppUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
