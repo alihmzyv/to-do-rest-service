@@ -3,15 +3,15 @@ deleteTaskButtons.forEach(button => button.addEventListener("click", showDeleteM
 
 const overlay = document.querySelector(".overlay");
 const deleteModal = document.querySelector(".modal");
-deleteModal.addEventListener("click", function({target}){
-    if(target.classList.contains("modal-close")) {
+deleteModal.addEventListener("click", function ({target}) {
+    if (target.classList.contains("modal-close")) {
         this.classList.remove("open");
         overlay.classList.remove("show");
     }
 
 });
 
-function showDeleteModal(){
+function showDeleteModal() {
 
     overlay.classList.add("show");
 

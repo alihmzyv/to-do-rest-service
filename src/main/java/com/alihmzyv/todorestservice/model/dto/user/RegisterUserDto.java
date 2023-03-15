@@ -1,25 +1,33 @@
 package com.alihmzyv.todorestservice.model.dto.user;
 
-import com.alihmzyv.todorestservice.model.entity.User;
-import jakarta.validation.constraints.NotNull;
+import com.alihmzyv.todorestservice.model.entity.AppUser;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
 import java.io.Serializable;
 
+import static com.alihmzyv.todorestservice.consts.Validation.*;
+
 /**
- * A DTO for the {@link User} entity
+ * A DTO for the {@link AppUser} entity
  */
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class RegisterUserDto implements Serializable {
-    @NotNull
+    @NotBlank(message = DEFAULT_NOT_NULL_MESSAGE)
     String firstName;
-    @NotNull
+    @NotBlank(message = DEFAULT_NOT_NULL_MESSAGE)
     String lastName;
-    @NotNull
+    @Email(message = DEFAULT_VALID_EMAIL_MESSAGE)
+    @NotBlank(message = DEFAULT_NOT_NULL_MESSAGE)
     String emailAddress;
-    @NotNull
+    @Pattern(
+            regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[!@#$%^&*])(?=.{8,})$\n",
+            message = DEFAULT_STRONG_PASSWORD_MESSAGE)
+    @NotBlank(message = DEFAULT_NOT_NULL_MESSAGE)
     String password;
 }

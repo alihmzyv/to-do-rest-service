@@ -20,11 +20,11 @@ public interface TaskMapper {
     @Mapping(target = "img", expression = "java(byteArrayToBase64(task.getImg()))")
     TaskRespDto taskToTaskRespDto(Task task);
 
-    private byte[] base64ToByteArray(String base64String) {
+    default byte[] base64ToByteArray(String base64String) {
         return Base64.getDecoder().decode(base64String);
     }
 
-    private String byteArrayToBase64(byte[] byteArr) {
+    default String byteArrayToBase64(byte[] byteArr) {
         return Base64.getEncoder().encodeToString(byteArr);
     }
 }
