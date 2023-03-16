@@ -12,6 +12,8 @@ import com.alihmzyv.todorestservice.service.TaskService;
 import com.alihmzyv.todorestservice.service.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
@@ -48,5 +50,11 @@ public class TaskServiceImpl implements TaskService {
         return taskRepo.findByUserIdAndId(userFound.getId(), taskId)
                 .map(taskMapper::taskToTaskRespDto)
                 .orElseThrow(() -> new TaskNotFoundException(String.format("Task not found with id: %d", taskId)));
+    }
+
+    @Override
+    public Page<TaskRespDto> getAllTasks(Integer userId, Pageable pageable) {
+        return taskRepo.findAll(pageable)
+                .map(taskMapper::taskToTaskRespDto);
     }
 }

@@ -12,17 +12,11 @@ import java.time.LocalDate;
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UpdateTaskDto implements Serializable {
-    @NotNull
     String name;
-    @NotNull
     LocalDate deadline;
-    @NotNull
     String description;
     String img;
-    @NotNull
     Boolean done;
-    @NotNull
     Boolean archived;
-    @NotNull
     Boolean important;
 }

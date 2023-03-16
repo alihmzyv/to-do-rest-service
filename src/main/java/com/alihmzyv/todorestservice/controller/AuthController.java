@@ -1,6 +1,8 @@
 package com.alihmzyv.todorestservice.controller;
 
 import com.alihmzyv.todorestservice.config.i18n.MessageSource;
+import com.alihmzyv.todorestservice.exception.UserNotFoundException;
+import com.alihmzyv.todorestservice.exception.security.CustomAuthorizationException;
 import com.alihmzyv.todorestservice.model.dto.TokenDto;
 import com.alihmzyv.todorestservice.model.entity.AppUser;
 import com.alihmzyv.todorestservice.model.entity.Role;
@@ -47,29 +49,29 @@ public class AuthController {
             JWTVerifier verifier = JWT.require(algorithm).build();
             DecodedJWT decodedJWT = verifier.verify(token);
             String subject = decodedJWT.getSubject();
-            Optional<AppUser> userOpt = userService.findUserByEmailAddress(subject);
-            if (userOpt.isPresent()) {
-                AppUser appUser = userOpt.get();
-                String accessTokenBody = jwtTokenGenerator.generateToken(
-                        appUser.getEmailAddress(),
-                        Instant.now().plusSeconds(jwtProperties.getAccessTokenExpireSeconds()),
-                        request.getRequestURL().toString(),
-                        Map.of("roles", appUser.getRoles().stream().map(Role::getName).toList()),
-                        algorithm);
-                String refreshTokenBody = jwtTokenGenerator.generateToken(
-                        appUser.getEmailAddress(),
-                        Instant.now().plusSeconds(jwtProperties.getRefreshTokenExpireSeconds()),
-                        request.getRequestURL().toString(),
-                        Map.of("roles", appUser.getRoles().stream().map(Role::getName).toList()),
-                        algorithm);
-                TokenDto accessToken = TokenDto.accessToken(accessTokenBody);
-                TokenDto refreshToken = TokenDto.refreshToken(refreshTokenBody);
-                return List.of(accessToken, refreshToken);
-            } else {
+            AppUser appUser; //ugly
+            try {
+                appUser = userService.findUserByEmailAddress(subject);
+            } catch (UserNotFoundException exc) {
                 throw new BadCredentialsException(String.format("%s: %s", messageSource.getMessage("user.username.not.found"), subject));
             }
+            String accessTokenBody = jwtTokenGenerator.generateToken(
+                    appUser.getEmailAddress(),
+                    Instant.now().plusSeconds(jwtProperties.getAccessTokenExpireSeconds()),
+                    request.getRequestURL().toString(),
+                    Map.of("roles", appUser.getRoles().stream().map(Role::getName).toList()),
+                    algorithm);
+            String refreshTokenBody = jwtTokenGenerator.generateToken(
+                    appUser.getEmailAddress(),
+                    Instant.now().plusSeconds(jwtProperties.getRefreshTokenExpireSeconds()),
+                    request.getRequestURL().toString(),
+                    Map.of("roles", appUser.getRoles().stream().map(Role::getName).toList()),
+                    algorithm);
+            TokenDto accessToken = TokenDto.accessToken(accessTokenBody);
+            TokenDto refreshToken = TokenDto.refreshToken(refreshTokenBody);
+            return List.of(accessToken, refreshToken);
         } else {
-            throw new RuntimeException(messageSource.getMessage("jwt.refresh.jwt.missing"));
+            throw new CustomAuthorizationException(messageSource.getMessage("jwt.refresh.jwt.missing"));
         }
     }
 }
