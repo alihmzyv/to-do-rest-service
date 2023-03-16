@@ -2,13 +2,13 @@ package com.alihmzyv.todorestservice.mapper;
 
 import com.alihmzyv.todorestservice.model.dto.user.RegisterUserDto;
 import com.alihmzyv.todorestservice.model.dto.user.UserRespDto;
-import com.alihmzyv.todorestservice.model.entity.User;
-import org.mapstruct.Mapper;
-import org.mapstruct.ReportingPolicy;
+import com.alihmzyv.todorestservice.model.entity.AppUser;
+import org.mapstruct.*;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = "spring")
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = "spring", uses = PasswordEncoderMapper.class)
 public interface UserMapper {
-    User registerUserDtoToUser(RegisterUserDto registerUserDto);
-
-    UserRespDto userToUserRespDto(User user);
+    @Mapping(target = "password", qualifiedBy = EncodedMapping.class)
+    AppUser registerUserDtoToUser(RegisterUserDto registerUserDto);
+    UserRespDto userToUserRespDto(AppUser user);
 }

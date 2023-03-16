@@ -54,6 +54,6 @@ public class Task {
     @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", nullable = false)
     @ToString.Exclude
-    User user;
+    AppUser user;
 
 }

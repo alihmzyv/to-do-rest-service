@@ -20,6 +20,4 @@ public class UserRespDto implements Serializable {
     String lastName;
     @NotNull
     String emailAddress;
-    @NotNull
-    String password;
 }

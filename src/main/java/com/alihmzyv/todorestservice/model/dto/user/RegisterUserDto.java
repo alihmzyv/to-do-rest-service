@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
@@ -16,6 +17,7 @@ import static com.alihmzyv.todorestservice.consts.Validation.*;
  * A DTO for the {@link AppUser} entity
  */
 @Data
+@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class RegisterUserDto implements Serializable {
     @NotBlank(message = DEFAULT_NOT_NULL_MESSAGE)

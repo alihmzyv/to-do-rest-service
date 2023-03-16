@@ -5,8 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -42,6 +41,8 @@ public class AppUser {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @ToString.Exclude
-    Set<Task> tasks = new LinkedHashSet<>();
+    Set<Task> tasks = new HashSet<>();
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    Set<Role> roles = new HashSet<>();
 }
