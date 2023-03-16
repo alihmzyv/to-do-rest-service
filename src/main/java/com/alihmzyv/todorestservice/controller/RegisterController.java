@@ -45,7 +45,7 @@ public class RegisterController {
         AppUser userFound = userService.findUserByEmailAddress(emailAddress)
                         .orElseThrow(() ->
                                 new UserNotFoundException(String.format(
-                                        "User not found with email address: %d", emailAddress))); //never happens, since authenticated already
+                                        "User not found with email address: %s", emailAddress))); //never happens, since authenticated already
         UserRespDto userRespDto = userMapper.userToUserRespDto(userFound);
         BaseResponse<UserRespDto> resp = BaseResponse.ok(userRespDto, messageSource)
                 .build();
