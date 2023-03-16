@@ -15,6 +15,8 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import java.util.List;
 
+import static org.springframework.http.HttpMethod.POST;
+
 @RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity
@@ -31,6 +33,7 @@ public class SecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeHttpRequests()
                 .requestMatchers(permitAllPaths.toArray(String[]::new)).permitAll()
+                .requestMatchers(POST, "/api/users").permitAll()
                 .requestMatchers("/api/users/**").hasAnyAuthority("ROLE_USER")
                 .anyRequest().authenticated().and()
                 .apply(jwtHttpConfigurer).and()

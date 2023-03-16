@@ -28,7 +28,7 @@ public class RegisterUserDto implements Serializable {
     @NotBlank(message = DEFAULT_NOT_NULL_MESSAGE)
     String emailAddress;
     @Pattern(
-            regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[!@#$%^&*])(?=.{8,})$\n",
+            regexp = DEFAULT_PASSWORD_REGEX,
             message = DEFAULT_STRONG_PASSWORD_MESSAGE)
     @NotBlank(message = DEFAULT_NOT_NULL_MESSAGE)
     String password;
