@@ -53,8 +53,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public Optional<AppUser> findUserByEmailAddress(String emailAddress) {
-        return userRepo.findByEmailAddress(emailAddress);
+    public AppUser findUserByEmailAddress(String emailAddress) {
+        return userRepo.findByEmailAddress(emailAddress)
+                .orElseThrow(() ->
+                        new UserNotFoundException(String.format(
+                                "User not found with email address: %s", emailAddress)));
     }
 
     public UserDetails loadUserByUsername(String emailAddress) throws UsernameNotFoundException {

@@ -11,5 +11,5 @@ public interface UserService {
     Integer createUser(RegisterUserDto registerUserDto);
     UserRespDto getUserRespDtoById(Integer userId);
     AppUser findUserById(Integer userId);
-    Optional<AppUser> findUserByEmailAddress(String emailAddress);
+    AppUser findUserByEmailAddress(String emailAddress);
 }

@@ -8,12 +8,12 @@ import lombok.experimental.FieldDefaults;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-/**
- * A DTO for the {@link Task} entity
- */
+
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class TaskRespDto implements Serializable {
+    @NotNull
+    Integer id;
     @NotNull
     String name;
     @NotNull

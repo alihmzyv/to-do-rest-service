@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
+import org.springframework.hateoas.Links;
 import org.springframework.hateoas.PagedModel;
 
 import java.util.Set;
@@ -33,6 +34,7 @@ public class BaseResponse<A> {
     A payload;
     PagedModel.PageMetadata pageMetadata;
     Set<ErrorResponse> errors;
+    Links links;
 
     public static BaseResponseBuilder<Object> failure() {
         return builder()

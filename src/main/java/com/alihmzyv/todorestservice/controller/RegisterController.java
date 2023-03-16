@@ -7,16 +7,23 @@ import com.alihmzyv.todorestservice.model.dto.base.BaseResponse;
 import com.alihmzyv.todorestservice.model.dto.user.RegisterUserDto;
 import com.alihmzyv.todorestservice.model.dto.user.UserRespDto;
 import com.alihmzyv.todorestservice.model.entity.AppUser;
+import com.alihmzyv.todorestservice.security.util.AuthenticationFacade;
 import com.alihmzyv.todorestservice.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.Links;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import java.net.URI;
 import java.security.Principal;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -26,6 +33,7 @@ public class RegisterController {
     private final UserService userService;
     private final UserMapper userMapper;
     private final MessageSource messageSource;
+    private final AuthenticationFacade authenticationFacade;
 
     @PostMapping
     public ResponseEntity<BaseResponse<Object>> registerUser(@RequestBody @Valid RegisterUserDto registerUserDto) {
@@ -35,20 +43,16 @@ public class RegisterController {
                 .build()
                 .toUri();
         return ResponseEntity.created(uri)
-                .header("Location", uri.toString())
                 .body(resp);
     }
 
     @GetMapping
-    public BaseResponse<UserRespDto> getUser(Principal principal) {
-        String emailAddress = principal.getName();
-        AppUser userFound = userService.findUserByEmailAddress(emailAddress)
-                        .orElseThrow(() ->
-                                new UserNotFoundException(String.format(
-                                        "User not found with email address: %s", emailAddress))); //never happens, since authenticated already
-        UserRespDto userRespDto = userMapper.userToUserRespDto(userFound);
-        BaseResponse<UserRespDto> resp = BaseResponse.ok(userRespDto, messageSource)
+    public BaseResponse<UserRespDto> getUser() {
+        Authentication authentication = authenticationFacade.getAuthentication();
+        String emailAddress = authentication.getName();
+        AppUser userFound = userService.findUserByEmailAddress(emailAddress);
+        UserRespDto userRespDto = userService.getUserRespDtoById(userFound.getId());
+        return BaseResponse.ok(userRespDto, messageSource)
                 .build();
-        return resp;
     }
 }
