@@ -2,7 +2,9 @@ package com.alihmzyv.todorestservice.controller;
 
 import com.alihmzyv.todorestservice.config.i18n.MessageSource;
 import com.alihmzyv.todorestservice.model.dto.base.BaseResponse;
+import com.alihmzyv.todorestservice.model.dto.user.ForgotPasswordDto;
 import com.alihmzyv.todorestservice.model.dto.user.RegisterUserDto;
+import com.alihmzyv.todorestservice.model.dto.user.ResetPasswordDto;
 import com.alihmzyv.todorestservice.model.dto.user.UserRespDto;
 import com.alihmzyv.todorestservice.model.entity.AppUser;
 import com.alihmzyv.todorestservice.security.util.AuthenticationFacade;
@@ -44,6 +46,25 @@ public class UserController {
         AppUser userFound = userService.findUserByEmailAddress(emailAddress);
         UserRespDto userRespDto = userService.getUserRespDtoById(userFound.getId());
         return BaseResponse.ok(userRespDto, messageSource)
+                .build();
+    }
+
+    @PostMapping("/forgot-password")
+    public BaseResponse<Object> forgotPassword(
+            @RequestBody @Valid ForgotPasswordDto forgotPasswordDto) {
+        userService.sendResetPasswordEmail(forgotPasswordDto);
+        return BaseResponse.ok(messageSource)
+                .message(messageSource.getMessage("user.password.forgot.successful"))
+                .build();
+    }
+
+    @PostMapping("/reset-password")
+    public BaseResponse<Object> resetPassword(
+            @RequestParam(name = "token") String token,
+            @RequestBody @Valid ResetPasswordDto resetPasswordDto) {
+        userService.resetPassword(token, resetPasswordDto);
+        return BaseResponse.ok(messageSource)
+                .message(messageSource.getMessage("user.reset.password.successful"))
                 .build();
     }
 }
