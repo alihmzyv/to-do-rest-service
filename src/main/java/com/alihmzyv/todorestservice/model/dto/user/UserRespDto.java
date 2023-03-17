@@ -14,10 +14,7 @@ import java.io.Serializable;
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserRespDto implements Serializable {
-    @NotNull
     String firstName;
-    @NotNull
     String lastName;
-    @NotNull
     String emailAddress;
 }

@@ -11,8 +11,6 @@ import lombok.experimental.FieldDefaults;
 
 import java.io.Serializable;
 
-import static com.alihmzyv.todorestservice.consts.Validation.*;
-
 /**
  * A DTO for the {@link AppUser} entity
  */
@@ -20,16 +18,16 @@ import static com.alihmzyv.todorestservice.consts.Validation.*;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class RegisterUserDto implements Serializable {
-    @NotBlank(message = DEFAULT_NOT_NULL_MESSAGE)
+    @NotBlank(message = "{field.notblank}")
     String firstName;
-    @NotBlank(message = DEFAULT_NOT_NULL_MESSAGE)
+    @NotBlank(message = "{field.notblank}")
     String lastName;
-    @Email(message = DEFAULT_VALID_EMAIL_MESSAGE)
-    @NotBlank(message = DEFAULT_NOT_NULL_MESSAGE)
+    @Email(message = "{email.valid}")
+    @NotBlank(message = "{field.notblank}")
     String emailAddress;
     @Pattern(
-            regexp = DEFAULT_PASSWORD_REGEX,
-            message = DEFAULT_STRONG_PASSWORD_MESSAGE)
-    @NotBlank(message = DEFAULT_NOT_NULL_MESSAGE)
+            regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d).{8,}$", //TODO: read from properties file
+            message = "{password.strong}")
+    @NotBlank(message = "{field.notblank}")
     String password;
 }
