@@ -1,6 +1,7 @@
 package com.alihmzyv.todorestservice.service.impl;
 
 import com.alihmzyv.todorestservice.config.i18n.MessageSource;
+import com.alihmzyv.todorestservice.controller.UserController;
 import com.alihmzyv.todorestservice.exception.ActionNotAllowedException;
 import com.alihmzyv.todorestservice.exception.DuplicateNotAllowedException;
 import com.alihmzyv.todorestservice.exception.UserNotFoundException;
@@ -13,10 +14,13 @@ import com.alihmzyv.todorestservice.model.entity.AppUser;
 import com.alihmzyv.todorestservice.model.entity.Role;
 import com.alihmzyv.todorestservice.repo.RoleRepository;
 import com.alihmzyv.todorestservice.repo.UserRepository;
+import com.alihmzyv.todorestservice.service.EmailService;
+import com.alihmzyv.todorestservice.service.HtmlComposer;
 import com.alihmzyv.todorestservice.service.PasswordResetService;
 import com.alihmzyv.todorestservice.service.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -28,7 +32,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
+import static org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder.fromMethodName;
+
+@Slf4j
 @RequiredArgsConstructor
 @Transactional
 @Service
@@ -40,6 +48,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final MessageSource messageSource;
     private final PasswordResetService passwordResetService;
     private final PasswordEncoder passwordEncoder;
+    private final HtmlComposer htmlComposer;
+    @Value("${company.name}")
+    private String companyName;
+    @Value("${user.password.reset.email.template}")
+    private String templatePath;
 
     @Override
     public Integer createUser(RegisterUserDto registerUserDto) {
@@ -106,15 +119,34 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public void sendResetPasswordEmail(ForgotPasswordDto forgotPasswordDto) {
-        String emailAddress = forgotPasswordDto.getEmailAddress();
-        if (userRepo.existsByEmailAddress(emailAddress)) {
-            emailService.sendEmail(
-                    emailAddress,
-                    messageSource.getMessage("user.password.reset.subject"),
-                    String.format("%s: %s",
-                            messageSource.getMessage("user.password.reset.body"),
-                            passwordResetService.putAndGetToken(emailAddress)));
-        }
+        userRepo.findByEmailAddress(forgotPasswordDto.getEmailAddress())
+                .ifPresent(user -> {
+                    String body = composeResetPasswordEmail(user);
+                    emailService.sendEmail(
+                            user.getEmailAddress(),
+                            messageSource.getMessage("user.password.reset.subject"),
+                            body,
+                            true,
+                            true);
+                });
+    }
+
+    private String composeResetPasswordEmail(AppUser user) {
+        String emailAddress = user.getEmailAddress();
+        String firstName = user.getFirstName();
+        String tokenGenerated = passwordResetService.putAndGetToken(emailAddress);
+        String resetLink = fromMethodName(
+                UserController.class,
+                "resetPassword",
+                tokenGenerated, new ResetPasswordDto("Ali1234$"))
+                .toUriString();           //TODO: refactor: weird to create instance of ResetPasswordDto here
+        Map<String, Object> data = Map.of(
+                "recipientName", firstName,
+                "resetLink", resetLink,
+                "senderName", companyName);
+        String body = htmlComposer.composeHtml(templatePath, data);
+        log.info("HTML:\n{}", body);
+        return body;
     }
 
     @Override
