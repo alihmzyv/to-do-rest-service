@@ -9,17 +9,15 @@ import lombok.experimental.FieldDefaults;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-import static com.alihmzyv.todorestservice.consts.Validation.DEFAULT_NOT_NULL_MESSAGE;
-
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CreateTaskDto implements Serializable {
-    @NotBlank(message = DEFAULT_NOT_NULL_MESSAGE)
+    @NotBlank(message = "{field.notblank}")
     String name;
-    @NotNull(message = DEFAULT_NOT_NULL_MESSAGE)
+    @NotNull(message = "{field.notblank}")
     LocalDate deadline;
-    @NotBlank(message = DEFAULT_NOT_NULL_MESSAGE)
+    @NotBlank(message = "{field.notblank}")
     String description;
     String img;
 }

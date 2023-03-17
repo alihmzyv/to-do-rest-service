@@ -6,15 +6,12 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
-import static com.alihmzyv.todorestservice.consts.Validation.DEFAULT_NOT_NULL_MESSAGE;
-import static com.alihmzyv.todorestservice.consts.Validation.DEFAULT_VALID_EMAIL_MESSAGE;
-
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class LoginFormDto {
-    @Email(message = DEFAULT_VALID_EMAIL_MESSAGE)
-    @NotBlank(message = DEFAULT_NOT_NULL_MESSAGE)
+    @Email(message = "{email.valid}")
+    @NotBlank(message = "{field.notblank}")
     String emailAddress;
-    @NotBlank(message = DEFAULT_NOT_NULL_MESSAGE)
+    @NotBlank(message = "{field.notblank}")
     String password;
 }

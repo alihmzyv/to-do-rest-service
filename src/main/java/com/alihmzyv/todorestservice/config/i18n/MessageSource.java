@@ -2,6 +2,7 @@ package com.alihmzyv.todorestservice.config.i18n;
 
 import org.springframework.context.MessageSourceResolvable;
 import org.springframework.context.NoSuchMessageException;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.stereotype.Component;
 
@@ -10,10 +11,10 @@ import java.util.Locale;
 @Component
 public class MessageSource implements org.springframework.context.MessageSource {
 
-    private final ResourceBundleMessageSource messageSource;
+    private final ReloadableResourceBundleMessageSource messageSource;
 
     public MessageSource() {
-        messageSource = new ResourceBundleMessageSource();
+        messageSource = new ReloadableResourceBundleMessageSource();
         messageSource.setBasename("messages/messages");
         messageSource.setDefaultEncoding("UTF-8");
     }
