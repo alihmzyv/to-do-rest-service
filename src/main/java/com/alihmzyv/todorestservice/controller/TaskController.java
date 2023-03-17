@@ -7,7 +7,6 @@ import com.alihmzyv.todorestservice.model.dto.task.CreateTaskDto;
 import com.alihmzyv.todorestservice.model.dto.task.TaskRespDto;
 import com.alihmzyv.todorestservice.model.dto.task.UpdateTaskDto;
 import com.alihmzyv.todorestservice.model.entity.AppUser;
-import com.alihmzyv.todorestservice.model.entity.Task;
 import com.alihmzyv.todorestservice.security.util.AuthenticationFacade;
 import com.alihmzyv.todorestservice.service.TaskService;
 import com.alihmzyv.todorestservice.service.UserService;
@@ -17,8 +16,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
-import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.Links;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -26,11 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import java.net.URI;
-import java.security.Principal;
-import java.util.Collection;
 import java.util.List;
-
-import static org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder.on;
 
 @Slf4j
 @RequiredArgsConstructor

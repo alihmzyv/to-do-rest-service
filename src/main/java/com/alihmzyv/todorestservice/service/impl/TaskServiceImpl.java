@@ -1,5 +1,7 @@
 package com.alihmzyv.todorestservice.service.impl;
 
+import com.alihmzyv.todorestservice.config.i18n.MessageSource;
+import com.alihmzyv.todorestservice.exception.DuplicateNotAllowedException;
 import com.alihmzyv.todorestservice.exception.TaskNotFoundException;
 import com.alihmzyv.todorestservice.mapper.TaskMapper;
 import com.alihmzyv.todorestservice.model.dto.task.CreateTaskDto;
@@ -23,8 +25,11 @@ public class TaskServiceImpl implements TaskService {
     private final TaskRepository taskRepo;
     private final UserService userService;
     private final TaskMapper taskMapper;
+    private final MessageSource messageSource;
+
     @Override
     public Integer createTask(Integer userId, CreateTaskDto createTaskDto) {
+        requiresTaskDoesNotExistByName(createTaskDto.getName());
         AppUser userFound = userService.findUserById(userId);
         Task task = taskMapper.createTaskDtoToTask(createTaskDto);
         task.setUser(userFound);
@@ -40,7 +45,9 @@ public class TaskServiceImpl implements TaskService {
                     taskMapper.updateTask(updateTaskDto, task);
                     taskRepo.save(task);
                 }, () -> {
-                    throw new TaskNotFoundException(String.format("Task not found with id: %d", taskId));
+                    throw new TaskNotFoundException(String.format("%s: %d",
+                            messageSource.getMessage("task.id.not.found"),
+                            taskId));
                 });
     }
 
@@ -49,12 +56,22 @@ public class TaskServiceImpl implements TaskService {
         AppUser userFound = userService.findUserById(userId);
         return taskRepo.findByUserIdAndId(userFound.getId(), taskId)
                 .map(taskMapper::taskToTaskRespDto)
-                .orElseThrow(() -> new TaskNotFoundException(String.format("Task not found with id: %d", taskId)));
+                .orElseThrow(() -> new TaskNotFoundException(String.format("%s: %d",
+                        messageSource.getMessage("task.id.not.found"),
+                        taskId)));
     }
 
     @Override
     public Page<TaskRespDto> getAllTasks(Integer userId, Pageable pageable) {
         return taskRepo.findAll(pageable)
                 .map(taskMapper::taskToTaskRespDto);
+    }
+
+    private void requiresTaskDoesNotExistByName(String name) {
+        if (taskRepo.existsByName(name))
+            throw new DuplicateNotAllowedException(String.format(
+                    "%s: %s",
+                    messageSource.getMessage("task.name.exists"),
+                    name));
     }
 }

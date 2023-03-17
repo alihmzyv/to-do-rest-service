@@ -53,7 +53,7 @@ public class AuthController {
             try {
                 appUser = userService.findUserByEmailAddress(subject);
             } catch (UserNotFoundException exc) {
-                throw new BadCredentialsException(String.format("%s: %s", messageSource.getMessage("user.username.not.found"), subject));
+                throw new BadCredentialsException(String.format("%s: %s", messageSource.getMessage("user.email.not.found"), subject));
             }
             String accessTokenBody = jwtTokenGenerator.generateToken(
                     appUser.getEmailAddress(),

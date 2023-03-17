@@ -1,8 +1,6 @@
 package com.alihmzyv.todorestservice.controller;
 
 import com.alihmzyv.todorestservice.config.i18n.MessageSource;
-import com.alihmzyv.todorestservice.exception.UserNotFoundException;
-import com.alihmzyv.todorestservice.mapper.UserMapper;
 import com.alihmzyv.todorestservice.model.dto.base.BaseResponse;
 import com.alihmzyv.todorestservice.model.dto.user.RegisterUserDto;
 import com.alihmzyv.todorestservice.model.dto.user.UserRespDto;
@@ -12,18 +10,12 @@ import com.alihmzyv.todorestservice.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.hateoas.Link;
-import org.springframework.hateoas.Links;
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import java.net.URI;
-import java.security.Principal;
-
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -31,7 +23,6 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RequestMapping("/api/users")
 public class RegisterController {
     private final UserService userService;
-    private final UserMapper userMapper;
     private final MessageSource messageSource;
     private final AuthenticationFacade authenticationFacade;
 

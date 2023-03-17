@@ -5,10 +5,8 @@ import com.alihmzyv.todorestservice.model.dto.task.TaskRespDto;
 import com.alihmzyv.todorestservice.model.dto.task.UpdateTaskDto;
 import com.alihmzyv.todorestservice.model.entity.Task;
 import org.mapstruct.*;
-import org.springframework.data.domain.Page;
 
 import java.util.Base64;
-import java.util.List;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = "spring")
 public interface TaskMapper {

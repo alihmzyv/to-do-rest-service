@@ -8,7 +8,10 @@ import org.springframework.data.domain.Pageable;
 
 public interface TaskService {
     Integer createTask(Integer userId, CreateTaskDto createTaskDto);
+
     void updateTask(Integer userId, Integer taskId, UpdateTaskDto updateTaskDto);
+
     TaskRespDto findTaskById(Integer userId, Integer taskId);
+
     Page<TaskRespDto> getAllTasks(Integer userId, Pageable pageable);
 }
