@@ -41,6 +41,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
         if (tokenOpt.isPresent()) {
             try {
                 String token = tokenOpt.get();
+                log.info(token);
                 JWTVerifier verifier = JWT.require(algorithm).build();
                 DecodedJWT decodedJWT = verifier.verify(token);
                 String subject = decodedJWT.getSubject();
