@@ -3,7 +3,7 @@ package com.alihmzyv.todorestservice.controller;
 import com.alihmzyv.todorestservice.config.i18n.MessageSource;
 import com.alihmzyv.todorestservice.exception.UserNotFoundException;
 import com.alihmzyv.todorestservice.exception.security.CustomAuthorizationException;
-import com.alihmzyv.todorestservice.model.dto.TokenDto;
+import com.alihmzyv.todorestservice.model.dto.security.TokenDto;
 import com.alihmzyv.todorestservice.model.entity.AppUser;
 import com.alihmzyv.todorestservice.model.entity.Role;
 import com.alihmzyv.todorestservice.security.JwtProperties;

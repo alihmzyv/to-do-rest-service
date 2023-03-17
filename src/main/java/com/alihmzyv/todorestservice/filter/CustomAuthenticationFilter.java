@@ -2,8 +2,8 @@ package com.alihmzyv.todorestservice.filter;
 
 import com.alihmzyv.todorestservice.config.i18n.MessageSource;
 import com.alihmzyv.todorestservice.exception.security.CustomAuthenticationException;
-import com.alihmzyv.todorestservice.model.dto.LoginFormDto;
-import com.alihmzyv.todorestservice.model.dto.TokenDto;
+import com.alihmzyv.todorestservice.model.dto.login.LoginFormDto;
+import com.alihmzyv.todorestservice.model.dto.security.TokenDto;
 import com.alihmzyv.todorestservice.security.JwtProperties;
 import com.alihmzyv.todorestservice.security.tokengenerator.JwtTokenGenerator;
 import com.alihmzyv.todorestservice.security.util.ResponseHandler;

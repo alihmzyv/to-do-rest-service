@@ -21,7 +21,7 @@ import java.net.URI;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/users")
-public class RegisterController {
+public class UserController {
     private final UserService userService;
     private final MessageSource messageSource;
     private final AuthenticationFacade authenticationFacade;
