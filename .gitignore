@@ -33,4 +33,4 @@ build/
 .vscode/
 
 ### sensitive ###
-src/main/resources/dev.env
+src/main/resources/env
