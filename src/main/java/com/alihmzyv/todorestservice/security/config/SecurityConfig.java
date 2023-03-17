@@ -12,7 +12,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
 
+import java.util.Collections;
 import java.util.List;
 
 import static org.springframework.http.HttpMethod.POST;
@@ -29,7 +31,15 @@ public class SecurityConfig {
     public SecurityFilterChain http(HttpSecurity http) throws Exception {
         return http
                 .csrf().disable()
-                .cors().disable()
+                .cors().configurationSource(request -> {
+                    CorsConfiguration corsConf = new CorsConfiguration();
+                    corsConf.setAllowedOriginPatterns(Collections.singletonList("*"));
+                    corsConf.setAllowedMethods(Collections.singletonList("*"));
+                    corsConf.setAllowCredentials(true);
+                    corsConf.setAllowedHeaders(List.of("*"));
+                    corsConf.setExposedHeaders(List.of("*"));
+                    return corsConf;
+                }).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeHttpRequests()
                 .requestMatchers(permitAllPaths.toArray(String[]::new)).permitAll()
