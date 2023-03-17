@@ -77,11 +77,4 @@ public class GeneralExceptionHandler {
         return ResponseEntity.badRequest()
                 .body(resp);
     }
-
-    @ExceptionHandler (value = {AccessDeniedException.class})
-    public void handleAccessDeniedException(HttpServletRequest request, HttpServletResponse response,
-                                            AccessDeniedException accessDeniedException) throws IOException {
-        // 403
-        response.sendError(HttpServletResponse.SC_FORBIDDEN, "Authorization Failed : " + accessDeniedException.getMessage());
-    }
 }
