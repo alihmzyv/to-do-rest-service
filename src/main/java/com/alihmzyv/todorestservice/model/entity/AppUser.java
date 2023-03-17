@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.util.LinkedHashSet;
+import java.util.HashSet;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -18,7 +18,7 @@ import java.util.Set;
 @Table(name = "users", schema = "public", indexes = {
         @Index(name = "users_email_address_uindex", columnList = "email_address", unique = true)
 })
-public class User {
+public class AppUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -40,8 +40,10 @@ public class User {
     @Column(name = "password", nullable = false, length = Integer.MAX_VALUE)
     String password;
 
-    @OneToMany(mappedBy = "userId")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @ToString.Exclude
-    Set<Task> tasks = new LinkedHashSet<>();
+    Set<Task> tasks = new HashSet<>();
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    Set<Role> roles = new HashSet<>();
 }

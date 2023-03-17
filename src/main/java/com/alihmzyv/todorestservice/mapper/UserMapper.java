@@ -1,13 +1,16 @@
 package com.alihmzyv.todorestservice.mapper;
 
-import com.alihmzyv.todorestservice.model.entity.User;
-import com.alihmzyv.todorestservice.model.dto.user.UserRespDto;
 import com.alihmzyv.todorestservice.model.dto.user.RegisterUserDto;
-import org.mapstruct.*;
+import com.alihmzyv.todorestservice.model.dto.user.UserRespDto;
+import com.alihmzyv.todorestservice.model.entity.AppUser;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.ReportingPolicy;
 
-@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = "spring")
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = "spring", uses = PasswordEncoderMapper.class)
 public interface UserMapper {
-    User registerUserDtoToUser(RegisterUserDto registerUserDto);
+    @Mapping(target = "password", qualifiedBy = EncodedMapping.class)
+    AppUser registerUserDtoToUser(RegisterUserDto registerUserDto);
 
-    UserRespDto userToUserRespDto(User user);
+    UserRespDto userToUserRespDto(AppUser user);
 }
