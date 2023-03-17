@@ -37,6 +37,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/users/**").hasAnyAuthority("ROLE_USER")
                 .anyRequest().authenticated().and()
                 .apply(jwtHttpConfigurer).and()
+                .httpBasic().and()
                 .build();
     }
 
