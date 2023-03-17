@@ -20,6 +20,9 @@ databaseChangeLog:
                   name: name
                   type: VARCHAR(255)
             tableName: role
+        - loadData:
+            file: initial_data/role.csv
+            tableName: role
   - changeSet:
       id: 1679034902189-2
       author: Ali (generated)
