@@ -33,7 +33,7 @@ public class SecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeHttpRequests()
                 .requestMatchers(permitAllPaths.toArray(String[]::new)).permitAll()
-                .requestMatchers(POST, "/api/users").permitAll()
+                .requestMatchers(POST, "/api/users", "/api/users/forgot-password", "/api/users/reset-password").permitAll()
                 .requestMatchers("/api/users/**").hasAnyAuthority("ROLE_USER")
                 .anyRequest().authenticated().and()
                 .apply(jwtHttpConfigurer).and()
