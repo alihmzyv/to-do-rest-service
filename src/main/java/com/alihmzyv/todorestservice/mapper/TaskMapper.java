@@ -21,14 +21,14 @@ public interface TaskMapper {
     TaskRespDto taskToTaskRespDto(Task task);
 
     default byte[] base64ToByteArray(String base64String) {
-        if (base64String == null) {
+        if (base64String == null || base64String.isEmpty()) {
             return null;
         }
         return Base64.getDecoder().decode(base64String);
     }
 
     default String byteArrayToBase64(byte[] byteArr) {
-        if (byteArr == null) {
+        if (byteArr == null || byteArr.length == 0) {
             return null;
         }
         return Base64.getEncoder().encodeToString(byteArr);

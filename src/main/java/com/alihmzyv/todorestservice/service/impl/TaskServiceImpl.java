@@ -12,6 +12,7 @@ import com.alihmzyv.todorestservice.model.entity.Task;
 import com.alihmzyv.todorestservice.repo.TaskRepository;
 import com.alihmzyv.todorestservice.service.TaskService;
 import com.alihmzyv.todorestservice.service.UserService;
+import com.querydsl.core.types.Predicate;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -62,8 +63,8 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Page<TaskRespDto> getAllTasks(Integer userId, Pageable pageable) {
-        return taskRepo.findAll(pageable)
+    public Page<TaskRespDto> getAllTasks(Integer userId, Pageable pageable, Predicate predicate) {
+        return taskRepo.findAll(predicate, pageable)
                 .map(taskMapper::taskToTaskRespDto);
     }
 

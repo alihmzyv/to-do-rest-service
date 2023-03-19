@@ -15,6 +15,8 @@ public interface UserService {
     AppUser findUserById(Integer userId);
 
     AppUser findUserByEmailAddress(String emailAddress);
+
     void sendResetPasswordEmail(ForgotPasswordDto forgotPasswordDto);
+
     void resetPassword(String token, ResetPasswordDto resetPasswordDto);
 }
