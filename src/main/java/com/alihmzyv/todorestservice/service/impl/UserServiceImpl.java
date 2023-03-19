@@ -17,7 +17,6 @@ import com.alihmzyv.todorestservice.service.PasswordResetService;
 import com.alihmzyv.todorestservice.service.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;

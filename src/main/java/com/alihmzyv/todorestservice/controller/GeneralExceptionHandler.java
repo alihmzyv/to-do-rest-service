@@ -5,16 +5,12 @@ import com.alihmzyv.todorestservice.exception.security.CustomAuthenticationExcep
 import com.alihmzyv.todorestservice.exception.security.CustomAuthorizationException;
 import com.alihmzyv.todorestservice.model.dto.base.BaseResponse;
 import com.alihmzyv.todorestservice.model.dto.error.ErrorResponse;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;

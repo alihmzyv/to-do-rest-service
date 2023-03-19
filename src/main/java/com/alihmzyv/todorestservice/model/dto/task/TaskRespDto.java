@@ -1,6 +1,5 @@
 package com.alihmzyv.todorestservice.model.dto.task;
 
-import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
