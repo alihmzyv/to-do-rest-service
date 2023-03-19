@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -24,6 +25,7 @@ public class SecurityConfig {
     private final JWTHttpConfigurer jwtHttpConfigurer;
     @Value("#{'${jwt.permit.all.paths}'.split(', ')}")
     private List<String> permitAllPaths;
+    private final Environment env;
 
     @Bean
     public SecurityFilterChain http(HttpSecurity http) throws Exception {

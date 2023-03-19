@@ -22,6 +22,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -49,10 +50,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final PasswordResetService passwordResetService;
     private final PasswordEncoder passwordEncoder;
     private final HtmlComposer htmlComposer;
-    @Value("${company.name}")
-    private String companyName;
-    @Value("${user.password.reset.email.template}")
-    private String templatePath;
+    private final Environment env;
 
     @Override
     public Integer createUser(RegisterUserDto registerUserDto) {
@@ -135,16 +133,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         String emailAddress = user.getEmailAddress();
         String firstName = user.getFirstName();
         String tokenGenerated = passwordResetService.putAndGetToken(emailAddress);
-        String resetLink = fromMethodName(
-                UserController.class,
-                "resetPassword",
-                tokenGenerated, new ResetPasswordDto("Ali1234$"))
-                .toUriString();           //TODO: refactor: weird to create instance of ResetPasswordDto here
+        String resetLink = env.getProperty("user.password.reset.link").concat(String.format("?%s", tokenGenerated));
         Map<String, Object> data = Map.of(
                 "recipientName", firstName,
                 "resetLink", resetLink,
-                "senderName", companyName);
-        String body = htmlComposer.composeHtml(templatePath, data);
+                "senderName", env.getProperty("company.name"));
+        String body = htmlComposer.composeHtml(env.getProperty("user.password.reset.email.template"), data);
         log.info("HTML:\n{}", body);
         return body;
     }
