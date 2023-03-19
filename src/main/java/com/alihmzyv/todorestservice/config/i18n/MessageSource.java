@@ -2,7 +2,9 @@ package com.alihmzyv.todorestservice.config.i18n;
 
 import org.springframework.context.MessageSourceResolvable;
 import org.springframework.context.NoSuchMessageException;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.stereotype.Component;
 
 import java.util.Locale;
@@ -10,13 +12,12 @@ import java.util.Locale;
 @Component
 public class MessageSource implements org.springframework.context.MessageSource {
 
-    private final ReloadableResourceBundleMessageSource messageSource;
+    private final ResourceBundleMessageSource messageSource;
 
     public MessageSource() {
-        messageSource = new ReloadableResourceBundleMessageSource();
+        messageSource = new ResourceBundleMessageSource();
         messageSource.setBasename("messages/messages");
         messageSource.setDefaultEncoding("UTF-8");
-        messageSource.setDefaultEncoding("US");
     }
 
     @Override
@@ -35,7 +36,8 @@ public class MessageSource implements org.springframework.context.MessageSource 
     }
 
     public String getMessage(String code) {
-        return getMessage(code, null, Locale.ENGLISH); //TODO: change
+        Locale locale = LocaleContextHolder.getLocale();
+        return getMessage(code, null, locale);
     }
 }
 
