@@ -7,14 +7,18 @@ import com.alihmzyv.todorestservice.model.dto.task.CreateTaskDto;
 import com.alihmzyv.todorestservice.model.dto.task.TaskRespDto;
 import com.alihmzyv.todorestservice.model.dto.task.UpdateTaskDto;
 import com.alihmzyv.todorestservice.model.entity.AppUser;
+import com.alihmzyv.todorestservice.model.entity.QTask;
+import com.alihmzyv.todorestservice.model.entity.Task;
 import com.alihmzyv.todorestservice.security.util.AuthenticationFacade;
 import com.alihmzyv.todorestservice.service.TaskService;
 import com.alihmzyv.todorestservice.service.UserService;
+import com.querydsl.core.types.Predicate;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +28,9 @@ import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBui
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
+
+import static java.time.LocalDateTime.now;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -49,11 +56,18 @@ public class TaskController {
 
     @GetMapping
     public BaseResponse<List<TaskRespDto>> getTasks(
+            @RequestParam(name = "overdue") Optional<Boolean> overdue, //TODO: can be incorporated into Predicate below?
+            @QuerydslPredicate(root = Task.class) Predicate predicate,
             Pageable pageable) {
+        Predicate finalPredicate = overdue.map(isOverdue ->
+                        (Predicate) (isOverdue ?
+                                QTask.task.deadline.after(now()).and(predicate) :
+                                QTask.task.deadline.before(now()).and(predicate)))
+                .orElse(predicate);
         Authentication authentication = authenticationFacade.getAuthentication();
         String emailAddress = authentication.getName();
         AppUser userFound = userService.findUserByEmailAddress(emailAddress);
-        Page<TaskRespDto> allTasks = taskService.getAllTasks(userFound.getId(), pageable);
+        Page<TaskRespDto> allTasks = taskService.getAllTasks(userFound.getId(), pageable, finalPredicate);
         List<TaskRespDto> payLoad = allTasks.getContent();
         PagedModel.PageMetadata pageMetadata = pagedResourcesAssembler.toModel(allTasks).getMetadata();
         return BaseResponse.ok(payLoad, messageSource)

@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -29,7 +29,7 @@ public class Task {
 
     @NotNull
     @Column(name = "deadline", nullable = false)
-    LocalDate deadline;
+    LocalDateTime deadline;
 
     @NotNull
     @Column(name = "description", nullable = false, length = Integer.MAX_VALUE)
