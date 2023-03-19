@@ -16,6 +16,7 @@ public class MessageSource implements org.springframework.context.MessageSource 
         messageSource = new ReloadableResourceBundleMessageSource();
         messageSource.setBasename("messages/messages");
         messageSource.setDefaultEncoding("UTF-8");
+        messageSource.setDefaultEncoding("US");
     }
 
     @Override
