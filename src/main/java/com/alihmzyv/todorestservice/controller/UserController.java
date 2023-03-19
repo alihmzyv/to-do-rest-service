@@ -64,7 +64,7 @@ public class UserController {
             @RequestBody @Valid ResetPasswordDto resetPasswordDto) {
         userService.resetPassword(token, resetPasswordDto);
         return BaseResponse.ok(messageSource)
-                .message(messageSource.getMessage("user.password.reset.subject"))
+                .message(messageSource.getMessage("user.password.reset.successful"))
                 .build();
     }
 }
