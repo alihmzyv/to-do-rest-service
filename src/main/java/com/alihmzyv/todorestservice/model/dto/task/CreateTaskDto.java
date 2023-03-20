@@ -8,6 +8,7 @@ import lombok.experimental.FieldDefaults;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 
 @Data
@@ -16,7 +17,7 @@ public class CreateTaskDto implements Serializable {
     @NotBlank(message = "{field.notblank}")
     String name;
     @NotNull(message = "{field.notblank}")
-    LocalDate deadline;
+    LocalDateTime deadline;
     @NotBlank(message = "{field.notblank}")
     String description;
     String img;

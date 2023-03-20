@@ -113,7 +113,7 @@ public class TaskController {
     @GetMapping
     public BaseResponse<List<TaskRespDto>> getTasks(
             @RequestParam(name = "overdue") Optional<Boolean> overdue, //TODO: can be incorporated into Predicate below?
-            /*@ParameterObject*/ @QuerydslPredicate(root = Task.class) Predicate predicate,
+            @ParameterObject @QuerydslPredicate(root = Task.class) Predicate predicate,
             @ParameterObject Pageable pageable) {
         Predicate finalPredicate = overdue.map(isOverdue ->
                         (Predicate) (isOverdue ?
