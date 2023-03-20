@@ -5,14 +5,14 @@ import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UpdateTaskDto implements Serializable {
     String name;
-    LocalDate deadline;
+    LocalDateTime deadline;
     String description;
     String img;
     Boolean done;
