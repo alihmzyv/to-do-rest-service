@@ -158,4 +158,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                                     token));
                         });
     }
+
+    @Override
+    public void deleteUserById(Integer userId) {
+        userRepo.deleteById(userId);
+    }
 }

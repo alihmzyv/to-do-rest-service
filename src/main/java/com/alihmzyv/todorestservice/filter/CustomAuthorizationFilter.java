@@ -12,10 +12,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.AntPathMatcher;
+import org.springframework.util.PathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
@@ -29,11 +31,12 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 public class CustomAuthorizationFilter extends OncePerRequestFilter {
     private final Algorithm algorithm;
     private final MessageSource messageSource;
-    private final List<String> permitAllPaths;
-    private final AntPathMatcher antPathMatcher = new AntPathMatcher();
+    private final List<String> permitPathsAll;
+    private final List<String> permitPathsPost;
+    private final PathMatcher pathMatcher = new AntPathMatcher();
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull FilterChain filterChain) throws ServletException, IOException {
         log.info("Auth filter");
         Optional<String> tokenOpt = Optional.ofNullable(request.getHeader(AUTHORIZATION))
                 .filter(headerValue -> headerValue.startsWith("Bearer "))
@@ -62,12 +65,18 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String servletPath = request.getServletPath();
+        String method = request.getMethod();
         log.info("Servlet path: {}", servletPath);
-        //TODO: the code below does not seem right
-        return permitAllPaths.stream()
-                .anyMatch(path -> antPathMatcher.match(path, servletPath) ||
-                        (request.getMethod().equals("POST") && antPathMatcher.match("/api/users", servletPath)) ||
-                        request.getMethod().equals("POST") && antPathMatcher.match("/api/users/forgot-password", servletPath) ||
-                        request.getMethod().equals("POST") && antPathMatcher.match("/api/users/reset-password", servletPath));
+        //TODO: REFACTOR
+        return servletPath.contains("swagger") || servletPath.contains("docs") || permitPathsAll.stream()
+                        .anyMatch(path -> {
+                            log.info("Pattern: {}", path);
+                            log.info("Path: {}", servletPath);
+                            boolean match = pathMatcher.match(path, servletPath);
+                            log.info("Matches: {}", match);
+                            return match;
+                        }) ||
+                permitPathsPost.stream()
+                        .anyMatch(path -> pathMatcher.match(path, servletPath) && method.equalsIgnoreCase("post"));
     }
 }
