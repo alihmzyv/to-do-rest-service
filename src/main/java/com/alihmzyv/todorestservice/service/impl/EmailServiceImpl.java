@@ -1,6 +1,5 @@
 package com.alihmzyv.todorestservice.service.impl;
 
-import com.alihmzyv.todorestservice.config.i18n.MessageSource;
 import com.alihmzyv.todorestservice.service.EmailService;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class EmailServiceImpl implements EmailService {
     private final JavaMailSender mailSender;
-    private final MessageSource messageSource;
 
     @SneakyThrows
     @Override
