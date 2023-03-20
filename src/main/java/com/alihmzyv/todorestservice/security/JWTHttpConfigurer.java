@@ -27,8 +27,10 @@ public class JWTHttpConfigurer extends AbstractHttpConfigurer<JWTHttpConfigurer,
     private final ObjectMapper objectMapper;
     private final JwtTokenGenerator jwtTokenGenerator;
     private final MessageSource messageSource;
-    @Value("#{'${jwt.permit.all.paths}'.split(',')}")
-    private List<String> permitAllPaths;
+    @Value("#{'${jwt.permit.all.paths.all}'.split(',')}")
+    private List<String> permitPathsAll;
+    @Value("#{'${jwt.permit.all.paths.post}'.split(',')}")
+    private List<String> permitPathsPost;
 
     @Override
     public void configure(HttpSecurity http) {
@@ -43,7 +45,7 @@ public class JWTHttpConfigurer extends AbstractHttpConfigurer<JWTHttpConfigurer,
                 messageSource);
         customAuthenticationFilter.setFilterProcessesUrl(jwtProperties.getLoginUrl());
         CustomAuthorizationFilter customAuthorizationFilter =
-                new CustomAuthorizationFilter(algorithm, messageSource, permitAllPaths);
+                new CustomAuthorizationFilter(algorithm, messageSource, permitPathsAll, permitPathsPost);
         http.addFilter(customAuthenticationFilter);
         http.addFilterBefore(customAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
     }

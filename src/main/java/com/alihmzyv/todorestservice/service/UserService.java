@@ -19,4 +19,6 @@ public interface UserService {
     void sendResetPasswordEmail(ForgotPasswordDto forgotPasswordDto);
 
     void resetPassword(String token, ResetPasswordDto resetPasswordDto);
+
+    void deleteUserById(Integer userId);
 }
