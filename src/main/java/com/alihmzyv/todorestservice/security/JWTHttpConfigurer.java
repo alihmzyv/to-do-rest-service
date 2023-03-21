@@ -27,9 +27,9 @@ public class JWTHttpConfigurer extends AbstractHttpConfigurer<JWTHttpConfigurer,
     private final ObjectMapper objectMapper;
     private final JwtTokenGenerator jwtTokenGenerator;
     private final MessageSource messageSource;
-    @Value("#{'${jwt.permit.all.paths.all}'.split(',')}")
+    @Value("#{'${jwt.permit.all.paths.all}'.split(', ')}")
     private List<String> permitPathsAll;
-    @Value("#{'${jwt.permit.all.paths.post}'.split(',')}")
+    @Value("#{'${jwt.permit.all.paths.post}'.split(', ')}")
     private List<String> permitPathsPost;
 
     @Override
