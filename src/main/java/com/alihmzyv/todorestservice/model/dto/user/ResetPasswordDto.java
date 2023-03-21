@@ -6,11 +6,12 @@ import jakarta.validation.constraints.Pattern;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 @Data
+@NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@AllArgsConstructor
 public class ResetPasswordDto {
     @Schema(description = "{password.strong}", example = "Ali1234$", pattern = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d).{8,}$")
     //TODO: read regex from properties
