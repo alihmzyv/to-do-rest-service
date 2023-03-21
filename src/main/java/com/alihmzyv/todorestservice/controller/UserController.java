@@ -29,7 +29,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping(value = "/api/users", produces = APPLICATION_JSON_VALUE)
 public class UserController {
     private final UserService userService;
     private final MessageSource messageSource;
@@ -41,16 +41,10 @@ public class UserController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Successful",
-                            content = @Content(
-                                    mediaType = APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = BaseResponse.class))),
+                            description = "Successful"),
                     @ApiResponse(
                             responseCode = "400",
-                            description = "The required request body or parameters missing or invalid",
-                            content = @Content(
-                                    mediaType = APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = BaseResponse.class)))})
+                            description = "The required request body or parameters missing or invalid")})
     @PostMapping
     public ResponseEntity<BaseResponse<Object>> registerUser(@RequestBody @Valid RegisterUserDto registerUserDto) {
         userService.createUser(registerUserDto);
@@ -69,17 +63,11 @@ public class UserController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Successful",
-                            content = @Content(
-                                    mediaType = APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = BaseResponse.class))),
+                            description = "Successful"),
                     @ApiResponse(
                             responseCode = "401",
                             description = "JWT is not present in 'Authentication' header or is invalid " +
-                                    "or unauthorized",
-                            content = @Content(
-                                    mediaType = APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = BaseResponse.class))
+                                    "or unauthorized"
                     )})
     @GetMapping
     public BaseResponse<UserRespDto> getUser() {
@@ -97,16 +85,10 @@ public class UserController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Successful",
-                            content = @Content(
-                                    mediaType = APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = BaseResponse.class))),
+                            description = "Successful"),
                     @ApiResponse(
                             responseCode = "400",
-                            description = "The required request body or parameters missing or invalid",
-                            content = @Content(
-                                    mediaType = APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = BaseResponse.class)))})
+                            description = "The required request body or parameters missing or invalid")})
     @PostMapping("/forgot-password")
     public BaseResponse<Object> forgotPassword(
             @RequestBody @Valid ForgotPasswordDto forgotPasswordDto) {
@@ -122,16 +104,10 @@ public class UserController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Successful",
-                            content = @Content(
-                                    mediaType = APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = BaseResponse.class))),
+                            description = "Successful"),
                     @ApiResponse(
                             responseCode = "400",
-                            description = "The required request body or parameters missing or invalid",
-                            content = @Content(
-                                    mediaType = APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = BaseResponse.class)))})
+                            description = "The required request body or parameters missing or invalid")})
     @PostMapping("/reset-password")
     public BaseResponse<Object> resetPassword(
             @RequestParam(name = "token") String token,
@@ -149,17 +125,11 @@ public class UserController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Successful",
-                            content = @Content(
-                                    mediaType = APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = BaseResponse.class))),
+                            description = "Successful"),
                     @ApiResponse(
                             responseCode = "401",
                             description = "JWT is not present in 'Authentication' header or is invalid " +
-                                    "or unauthorized",
-                            content = @Content(
-                                    mediaType = APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = BaseResponse.class))
+                                    "or unauthorized"
                     )})
     @DeleteMapping("/delete")
     public BaseResponse<Object> deleteUser() {

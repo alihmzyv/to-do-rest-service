@@ -14,8 +14,6 @@ import com.alihmzyv.todorestservice.service.TaskService;
 import com.alihmzyv.todorestservice.service.UserService;
 import com.querydsl.core.types.Predicate;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
@@ -37,13 +35,14 @@ import java.util.List;
 import java.util.Optional;
 
 import static java.time.LocalDateTime.now;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @SecurityRequirement(name = "Bearer Authentication")
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/users/tasks")
+@RequestMapping(value = "/api/users/tasks", produces = APPLICATION_JSON_VALUE)
 public class TaskController {
     private final TaskService taskService;
     private final UserService userService;
@@ -57,23 +56,14 @@ public class TaskController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Successful",
-                            content = @Content(
-                                    mediaType = APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = BaseResponse.class))),
+                            description = "Successful"),
                     @ApiResponse(
                             responseCode = "400",
-                            description = "The required request body or parameters missing or invalid",
-                            content = @Content(
-                                    mediaType = APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = BaseResponse.class))),
+                            description = "The required request body or parameters missing or invalid"),
                     @ApiResponse(
                             responseCode = "401",
                             description = "JWT is not present in 'Authentication' header or is invalid " +
-                                    "or unauthorized",
-                            content = @Content(
-                                    mediaType = APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = BaseResponse.class))
+                                    "or unauthorized"
                     )})
     @GetMapping("/{id}")
     public BaseResponse<TaskRespDto> getTask(
@@ -92,24 +82,14 @@ public class TaskController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Successful",
-                            content = @Content(
-                                    mediaType = APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = BaseResponse.class))),
+                            description = "Successful"),
                     @ApiResponse(
                             responseCode = "400",
-                            description = "The required request body or parameters missing or invalid",
-                            content = @Content(
-                                    mediaType = APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = BaseResponse.class))),
+                            description = "The required request body or parameters missing or invalid"),
                     @ApiResponse(
                             responseCode = "401",
                             description = "JWT is not present in 'Authentication' header or is invalid " +
-                                    "or unauthorized",
-                            content = @Content(
-                                    mediaType = APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = BaseResponse.class))
-                    )})
+                                    "or unauthorized")})
     @GetMapping
     public BaseResponse<List<TaskRespDto>> getTasks(
             @RequestParam(name = "overdue") Optional<Boolean> overdue, //TODO: can be incorporated into Predicate below?
@@ -137,24 +117,14 @@ public class TaskController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Successful",
-                            content = @Content(
-                                    mediaType = APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = BaseResponse.class))),
+                            description = "Successful"),
                     @ApiResponse(
                             responseCode = "400",
-                            description = "The required request body or parameters missing or invalid",
-                            content = @Content(
-                                    mediaType = APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = BaseResponse.class))),
+                            description = "The required request body or parameters missing or invalid"),
                     @ApiResponse(
                             responseCode = "401",
                             description = "JWT is not present in 'Authentication' header or is invalid " +
-                                    "or unauthorized",
-                            content = @Content(
-                                    mediaType = APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = BaseResponse.class))
-                    )})
+                                    "or unauthorized")})
     @PostMapping
     public ResponseEntity<BaseResponse<Object>> createTask(
             @RequestBody @Valid CreateTaskDto createTaskDto) {
@@ -177,23 +147,14 @@ public class TaskController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Successful",
-                            content = @Content(
-                                    mediaType = APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = BaseResponse.class))),
+                            description = "Successful"),
                     @ApiResponse(
                             responseCode = "400",
-                            description = "The required request body or parameters missing or invalid",
-                            content = @Content(
-                                    mediaType = APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = BaseResponse.class))),
+                            description = "The required request body or parameters missing or invalid"),
                     @ApiResponse(
                             responseCode = "401",
                             description = "JWT is not present in 'Authentication' header or is invalid " +
-                                    "or unauthorized",
-                            content = @Content(
-                                    mediaType = APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = BaseResponse.class))
+                                    "or unauthorized"
                     )})
     @PutMapping("/{id}")
     public BaseResponse<Object> updateTask(
