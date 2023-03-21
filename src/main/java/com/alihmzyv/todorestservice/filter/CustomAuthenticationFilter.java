@@ -5,7 +5,7 @@ import com.alihmzyv.todorestservice.exception.security.CustomAuthenticationExcep
 import com.alihmzyv.todorestservice.model.dto.base.BaseResponse;
 import com.alihmzyv.todorestservice.model.dto.security.TokenDto;
 import com.alihmzyv.todorestservice.model.dto.user.LoginFormDto;
-import com.alihmzyv.todorestservice.security.JwtProperties;
+import com.alihmzyv.todorestservice.security.config.JwtProperties;
 import com.alihmzyv.todorestservice.security.tokengenerator.JwtTokenGenerator;
 import com.alihmzyv.todorestservice.security.util.ResponseHandler;
 import com.auth0.jwt.algorithms.Algorithm;

@@ -7,7 +7,7 @@ import com.alihmzyv.todorestservice.model.dto.base.BaseResponse;
 import com.alihmzyv.todorestservice.model.dto.security.TokenDto;
 import com.alihmzyv.todorestservice.model.entity.AppUser;
 import com.alihmzyv.todorestservice.model.entity.Role;
-import com.alihmzyv.todorestservice.security.JwtProperties;
+import com.alihmzyv.todorestservice.security.config.JwtProperties;
 import com.alihmzyv.todorestservice.security.tokengenerator.JwtTokenGenerator;
 import com.alihmzyv.todorestservice.service.UserService;
 import com.auth0.jwt.JWT;

@@ -3,6 +3,7 @@ package com.alihmzyv.todorestservice.security;
 import com.alihmzyv.todorestservice.config.i18n.MessageSource;
 import com.alihmzyv.todorestservice.filter.CustomAuthenticationFilter;
 import com.alihmzyv.todorestservice.filter.CustomAuthorizationFilter;
+import com.alihmzyv.todorestservice.security.config.JwtProperties;
 import com.alihmzyv.todorestservice.security.tokengenerator.JwtTokenGenerator;
 import com.alihmzyv.todorestservice.security.util.ResponseHandler;
 import com.auth0.jwt.algorithms.Algorithm;

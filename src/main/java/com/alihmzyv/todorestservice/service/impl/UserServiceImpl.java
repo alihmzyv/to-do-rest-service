@@ -1,7 +1,6 @@
 package com.alihmzyv.todorestservice.service.impl;
 
 import com.alihmzyv.todorestservice.config.i18n.MessageSource;
-import com.alihmzyv.todorestservice.controller.UserController;
 import com.alihmzyv.todorestservice.exception.ActionNotAllowedException;
 import com.alihmzyv.todorestservice.exception.DuplicateNotAllowedException;
 import com.alihmzyv.todorestservice.exception.UserNotFoundException;
@@ -21,7 +20,6 @@ import com.alihmzyv.todorestservice.service.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -34,8 +32,6 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-
-import static org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder.fromMethodName;
 
 @Slf4j
 @RequiredArgsConstructor

@@ -35,7 +35,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static java.time.LocalDateTime.now;
-import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @SecurityRequirement(name = "Bearer Authentication")

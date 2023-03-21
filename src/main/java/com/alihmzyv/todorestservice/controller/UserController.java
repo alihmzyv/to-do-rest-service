@@ -10,8 +10,6 @@ import com.alihmzyv.todorestservice.model.entity.AppUser;
 import com.alihmzyv.todorestservice.security.util.AuthenticationFacade;
 import com.alihmzyv.todorestservice.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
