@@ -66,17 +66,19 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String servletPath = request.getServletPath();
         String method = request.getMethod();
-        log.info("Servlet path: {}", servletPath);
         //TODO: REFACTOR
-        return servletPath.contains("swagger") || servletPath.contains("docs") || permitPathsAll.stream()
-                        .anyMatch(path -> {
-                            log.info("Pattern: {}", path);
-                            log.info("Path: {}", servletPath);
-                            boolean match = pathMatcher.match(path, servletPath);
-                            log.info("Matches: {}", match);
-                            return match;
-                        }) ||
-                permitPathsPost.stream()
-                        .anyMatch(path -> pathMatcher.match(path, servletPath) && method.equalsIgnoreCase("post"));
+        return (method.equalsIgnoreCase("post") && permitPathsPost.stream()
+                .anyMatch(path -> {
+                    log.info("Path:{}", path);
+                    boolean match = pathMatcher.match(path, servletPath);
+                    log.info("Match:{}", match);
+                    return match;
+                })) ||
+                permitPathsAll.stream().anyMatch(path -> {
+                    log.info("Path:{}", path);
+                    boolean match = pathMatcher.match(path, servletPath);
+                    log.info("Match:{}", match);
+                    return match;
+                });
     }
 }
