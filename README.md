@@ -1,45 +1,68 @@
-# To-do App Final Project
 
-## Content:
+# To Do REST SERVICE
 
-The Front-End part is done using HTML, CSS and JS only. No frameworks, no hard stuff.
+The main idea of the project is to build a Trello-like application that's useful for managing tasks digitally instead of writing them down on paper. This the REST service for it.
+## Documentation
+After running the application locally as described below, you can access the documentation at:
+[Local Swagger Documentation](http://localhost:8080/swagger-ui.html)
+## Environment Variables
 
-### Pages:
+To run this project, you will need to set the following environment variables:
 
-- Login
-- Registration
-- Forgot password
-- Landing page
-- My tasks page (Main page)
-- Tasks archive page
+`JWT_SECRET`
 
-### Files:
+`DATABASE_HOST`
 
-- Images
-- CSS Files
-- HTML Files
+`DATABASE_PORT`
 
-## The idea of the project
+`DATABASE_NAME`
 
-The main idea of the project is to build a Trello-like application that's useful for managing tasks digitally instead of
-writing them down on paper.
+`DATABASE_USERNAME`
 
-## How everything should work:
+`DATABASE_PASSWORD`
 
-The algorythm that a new appUser should follow consists of the following:
+`MAIL_USERNAME`
 
-1) Open the login page, choose the `Create account` option
-2) Get redirected to the `Sign Up` page, fill in the form and press the `Create account` button
-3) Get redirected to the login page, enter the newly created credentials and press `login`
-4) Get redirected to the `Landing page`, where the appUser can press the `Get Started` button and get redirected to
-   the `Main page (My Tasks)`
-5) Here the appUser can see his tasks, which he has added using the `Add task` button. He can also sort his tasks by
-   selecting the filter near the `Add task` button. If the appUser presses the `Delete` button on a task - that task is
-   being transferred to the `Tasks archive page`. However, if he clicks on the `Complete` button - a special `Done` flag
-   is applied to the task and it can be seen by selecting the `Done` filter. If the appUser clicks on a specific task -
-   he can see its description down below.
-6) If the appUser wants to see the `Tasks archive page` - he may hover onto his icon in the top right corner and choose
-   the `Archive` option. If the appUser presses the `Delete` button on a task here - a modal window appears alerting the
-   appUser that this action cannot be undone.
+`MAIL_PASSWORD`
 
-### That's about it. However, there is one thing left. Please keep in mind that the websites are "Work In Progress", which means that some html/css/js files may change during updates. Also you can ask for whatever Front-End feature you want to be implemented and it will be so. Good Luck! 
+
+## Run Locally
+
+Clone the project
+
+```bash
+  git clone https://github.com/alihmzyv/to-do-rest-service.git
+```
+
+Build the project: Once you have Maven installed, navigate to the root directory of the project in your terminal and run the following command to build the project:
+```bash
+  mvn clean install
+```
+
+Run the application: Once the project is built successfully, you can run the Spring Boot application using the following command:
+```bash
+  mvn spring-boot:run
+```
+This command will start the Spring Boot application on your local server, and you can access it by opening a web browser and entering the URL http://localhost:8080.
+
+## Tech Stack
+**Server**: Spring Boot
+
+**Database**: PostgreSQL
+
+**API Documentation**: Springdoc OpenAPI
+
+**ORM**: Spring Data JPA
+
+**Database Migration**: Liquibase
+
+**Security**: Spring Security, JWT
+
+**Build Tool**: Maven
+
+**Boilerplate Code Generators**: MapStruct, Lombok
+
+**Caching**: Hazelcast
+## Acknowledgements
+
+- This project was inspired by [DAN.IT](https://dan-it.com/) company, and I would like to express my sincere gratitude to their team for providing the idea and inspiration for this project.
