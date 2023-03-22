@@ -1,0 +1,204 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1679251055566-1
+      author: Ali (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: role_pkey
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: name
+                  type: VARCHAR(255)
+            tableName: role
+        - loadData:
+            file: initial_data/role.csv
+            tableName: role
+  - changeSet:
+      id: 1679251055566-2
+      author: Ali (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: task_pkey
+                  name: id
+                  type: INTEGER
+              - column:
+                  constraints:
+                    nullable: false
+                  name: archived
+                  type: BOOLEAN
+              - column:
+                  constraints:
+                    nullable: false
+                  name: deadline
+                  type: TIMESTAMP WITHOUT TIME ZONE
+              - column:
+                  constraints:
+                    nullable: false
+                  name: description
+                  type: TEXT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: done
+                  type: BOOLEAN
+              - column:
+                  name: img
+                  type: BYTEA
+              - column:
+                  constraints:
+                    nullable: false
+                  name: important
+                  type: BOOLEAN
+              - column:
+                  constraints:
+                    nullable: false
+                  name: name
+                  type: TEXT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: user_id
+                  type: INTEGER
+            tableName: task
+  - changeSet:
+      id: 1679251055566-3
+      author: Ali (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: users_pkey
+                  name: id
+                  type: INTEGER
+              - column:
+                  constraints:
+                    nullable: false
+                  name: email_address
+                  type: TEXT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: first_name
+                  type: TEXT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: last_name
+                  type: TEXT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: password
+                  type: TEXT
+            tableName: users
+  - changeSet:
+      id: 1679251055566-4
+      author: Ali (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: users_roles_pkey
+                  name: app_user_id
+                  type: INTEGER
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: users_roles_pkey
+                  name: roles_id
+                  type: BIGINT
+            tableName: users_roles
+  - changeSet:
+      id: 1679251055566-5
+      author: Ali (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addUniqueConstraint:
+            columnNames: name
+            constraintName: role_name_uindex
+            tableName: role
+  - changeSet:
+      id: 1679251055566-6
+      author: Ali (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addUniqueConstraint:
+            columnNames: name
+            constraintName: task_name_uindex
+            tableName: task
+  - changeSet:
+      id: 1679251055566-7
+      author: Ali (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addUniqueConstraint:
+            columnNames: email_address
+            constraintName: users_email_address_uindex
+            tableName: users
+  - changeSet:
+      id: 1679251055566-8
+      author: Ali (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: roles_id
+            baseTableName: users_roles
+            constraintName: fk15d410tj6juko0sq9k4km60xq
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: role
+  - changeSet:
+      id: 1679251055566-9
+      author: Ali (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: app_user_id
+            baseTableName: users_roles
+            constraintName: fkar2y0lww0xn3x3aoqfg9qsgr5
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: users
+  - changeSet:
+      id: 1679251055566-10
+      author: Ali (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: user_id
+            baseTableName: task
+            constraintName: fkbhwpp8tr117vvbxhf5sbkdkc9
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: users
+

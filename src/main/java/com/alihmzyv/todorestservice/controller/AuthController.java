@@ -3,16 +3,20 @@ package com.alihmzyv.todorestservice.controller;
 import com.alihmzyv.todorestservice.config.i18n.MessageSource;
 import com.alihmzyv.todorestservice.exception.UserNotFoundException;
 import com.alihmzyv.todorestservice.exception.security.CustomAuthorizationException;
-import com.alihmzyv.todorestservice.model.dto.TokenDto;
+import com.alihmzyv.todorestservice.model.dto.base.BaseResponse;
+import com.alihmzyv.todorestservice.model.dto.security.TokenDto;
 import com.alihmzyv.todorestservice.model.entity.AppUser;
 import com.alihmzyv.todorestservice.model.entity.Role;
-import com.alihmzyv.todorestservice.security.JwtProperties;
+import com.alihmzyv.todorestservice.security.config.JwtProperties;
 import com.alihmzyv.todorestservice.security.tokengenerator.JwtTokenGenerator;
 import com.alihmzyv.todorestservice.service.UserService;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,10 +31,12 @@ import java.util.Map;
 import java.util.Optional;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+@SecurityRequirement(name = "Bearer Authentication")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api")
+@RequestMapping(value = "/api", produces = APPLICATION_JSON_VALUE)
 @Slf4j
 public class AuthController {
     private final UserService userService;
@@ -39,8 +45,18 @@ public class AuthController {
     private final Algorithm algorithm;
     private final MessageSource messageSource;
 
+    @Operation(
+            tags = {"Authentication"},
+            summary = "Refresh Token",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Successful"),
+                    @ApiResponse(
+                            responseCode = "401",
+                            description = "Authorization header is not present or token is invalid")})
     @GetMapping("/token/refresh")
-    public List<TokenDto> refreshToken(HttpServletRequest request) {
+    public BaseResponse<List<TokenDto>> refreshToken(HttpServletRequest request) {
         Optional<String> tokenOpt = Optional.ofNullable(request.getHeader(AUTHORIZATION))
                 .filter(headerValue -> headerValue.startsWith("Bearer "))
                 .map(headerValue -> headerValue.substring("Bearer ".length()));
@@ -49,7 +65,7 @@ public class AuthController {
             JWTVerifier verifier = JWT.require(algorithm).build();
             DecodedJWT decodedJWT = verifier.verify(token);
             String subject = decodedJWT.getSubject();
-            AppUser appUser; //ugly
+            AppUser appUser; //TODO: refactor
             try {
                 appUser = userService.findUserByEmailAddress(subject);
             } catch (UserNotFoundException exc) {
@@ -69,7 +85,9 @@ public class AuthController {
                     algorithm);
             TokenDto accessToken = TokenDto.accessToken(accessTokenBody);
             TokenDto refreshToken = TokenDto.refreshToken(refreshTokenBody);
-            return List.of(accessToken, refreshToken);
+            List<TokenDto> tokens = List.of(accessToken, refreshToken);
+            return BaseResponse.authenticationSuccess(tokens, messageSource)
+                    .build();
         } else {
             throw new CustomAuthorizationException(messageSource.getMessage("jwt.refresh.jwt.missing"));
         }

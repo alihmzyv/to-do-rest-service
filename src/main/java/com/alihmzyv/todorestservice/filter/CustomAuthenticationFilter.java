@@ -2,9 +2,10 @@ package com.alihmzyv.todorestservice.filter;
 
 import com.alihmzyv.todorestservice.config.i18n.MessageSource;
 import com.alihmzyv.todorestservice.exception.security.CustomAuthenticationException;
-import com.alihmzyv.todorestservice.model.dto.LoginFormDto;
-import com.alihmzyv.todorestservice.model.dto.TokenDto;
-import com.alihmzyv.todorestservice.security.JwtProperties;
+import com.alihmzyv.todorestservice.model.dto.base.BaseResponse;
+import com.alihmzyv.todorestservice.model.dto.security.TokenDto;
+import com.alihmzyv.todorestservice.model.dto.user.LoginFormDto;
+import com.alihmzyv.todorestservice.security.config.JwtProperties;
 import com.alihmzyv.todorestservice.security.tokengenerator.JwtTokenGenerator;
 import com.alihmzyv.todorestservice.security.util.ResponseHandler;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -72,6 +73,8 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         TokenDto accessToken = TokenDto.accessToken(accessTokenBody);
         TokenDto refreshToken = TokenDto.refreshToken(refreshTokenBody);
         List<TokenDto> tokens = List.of(accessToken, refreshToken);
-        responseHandler.handle(response, tokens);
+        BaseResponse<List<TokenDto>> resp = BaseResponse.authenticationSuccess(tokens, messageSource)
+                .build();
+        responseHandler.handle(response, resp);
     }
 }
