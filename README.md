@@ -1,7 +1,7 @@
 
 # To Do REST SERVICE
 
-The main idea of the project is to build a Trello-like application that's useful for managing tasks digitally instead of writing them down on paper. This the REST service for it.
+The main idea of the project is to build a REST Service for Trello-like application that's useful for managing tasks digitally instead of writing them down on paper.
 ## Documentation
 After running the application locally as described below, you can access the documentation at:
 [Local Swagger Documentation](http://localhost:8080/swagger-ui.html)
